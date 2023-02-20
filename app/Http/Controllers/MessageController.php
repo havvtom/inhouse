@@ -6,6 +6,7 @@ use App\Models\Message;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Models\User;
 
 class MessageController extends Controller
 {
@@ -16,9 +17,23 @@ class MessageController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function inbox()
+    {        
+        $inbox = Message::where('sending_to_id', auth()->id())->get();
+
+        //Admin users have access to all the messages
+        if(auth()->user()->roles->contains('name', 'admin')){
+            $inbox = Message::get();
+        }
+
+        dd($inbox);
+
+        return view('messages.index', compact(['inbox' => $inbox]));
+    }
+
+    public function sent()
     {
-        return 'Response';
+        $sent = Message::where('created_by_id', auth()->id)->get();
     }
 
     /**
@@ -26,7 +41,9 @@ class MessageController extends Controller
      */
     public function create()
     {
-        //
+        $users = User::all();
+
+        return view('messages.create', compact('users'));
     }
 
     /**
@@ -34,7 +51,21 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Validate
+        $validated = $request->validate([
+            'subject' => 'required',
+            'message' => 'required',
+        ]);
+
+        $message = new Message;
+
+        $message->created_by_id = $request->user()->id;
+        $message->message_parent_id = $request->message_parent_id ?? '';
+        $message->sending_to_id = $request->sending_to_id ?? '';
+        $message->subject = $request->subject;
+        $message->message = $request->message;
+
+        $message->save();
     }
 
     /**

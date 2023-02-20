@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\MessageController;
+use App\Models\Notification;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,19 +16,21 @@ use App\Http\Controllers\MessageController;
 |
 */
 
-Route::get('/', function (Request $request) {;
+Route::get('/', function (Request $request) {
+    
     return view('welcome');
 });
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 //messages routes
-Route::group([], function (){
-    Route::get('messages', [MessageController::class, 'index']);
+Route::group(['prefix' => 'messages' ], function (){
+    Route::get('/inbox', [MessageController::class, 'inbox'])->name('messages.inbox');
+    Route::get('/create', [MessageController::class, 'create'])->name('messages.create');
+    Route::post('/', [MessageController::class, 'store'])->name('messages.store');
 });
 
 
