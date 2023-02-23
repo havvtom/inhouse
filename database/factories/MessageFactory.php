@@ -18,10 +18,11 @@ class MessageFactory extends Factory
     {
         return [
             'created_by_id' => '',
-            'message_parent_id' => null,
-            'sending_to_id' => null,
+            'sending_to_id' => 1,
             'subject' => $this->faker->sentence(),
-            'message' => $this->faker->paragraph()
+            'message' => $this->faker->paragraph(),
+            'seen' => null,
+            'deleted_at' => ''
         ];
     }
 }

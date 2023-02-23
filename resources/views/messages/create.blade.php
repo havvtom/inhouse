@@ -8,18 +8,30 @@
     <!-- Name input -->
     <div class="form-group mb-3">
         <label for="demo_overview" class="form-label" >Select recipient</label>
-        <select class="form-select" aria-label="Default select example" name="user_id">
-            <option selected>Open this select menu</option>
-            @foreach($users as $user)
-                <option  {{ auth()->user()->name == $user->name ? 'disabled' : '' }} value="{{ $user->id }}">{{$user->name}}</option>        
-            @endforeach
+        <select class="form-select" aria-label="Default select example" name="sending_to_id">
+            <option value="" selected>Open this select menu</option>
+            
+              @if(isset($replying_to))
+                <option value="{{ $replying_to->id }}" selected>{{$replying_to->name}}</option>
+              @else
+                @foreach($users as $user)
+                  <option  {{ auth()->user()->name == $user->name ? 'disabled' : '' }} value="{{ $user->id}}">{{$user->name}}</option> 
+                @endforeach
+              @endif       
         </select>
+        @if ($errors->has('sending_to_id'))
+            <span class="text-danger">{{ $errors->first('sending_to_id') }}</span>
+        @endif
     </div>
 
     <!-- Subject input -->
     <div class="mb-3">
       <label class="form-label" for="subject">Subject</label>
-      <input class="form-control" id="subject" type="text" name="subject" placeholder="Subject" data-sb-validations="required" />
+      @if(isset($replying_to))
+        <input class="form-control" id="subject" type="text" name="subject" placeholder="Subject" data-sb-validations="required" value="RE: {{ $message->subject }}" />
+      @else
+      <input class="form-control" id="subject" type="text" name="subject" placeholder="Subject" data-sb-validations="required" value="{{ old('subject') }}" />
+      @endif
         @if ($errors->has('subject'))
             <span class="text-danger">{{ $errors->first('subject') }}</span>
         @endif
@@ -29,20 +41,10 @@
     <!-- Message input -->
     <div class="mb-3">
       <label class="form-label" for="message">Message</label>
-      <textarea class="form-control" name="message" id="message" type="text" placeholder="Message" style="height: 10rem;" data-sb-validations="required"></textarea>
+      <textarea class="form-control" name="message" id="message" type="text" placeholder="Message" style="height: 10rem;" data-sb-validations="required">{{old('message')}}</textarea>
         @if ($errors->has('message'))
             <span class="text-danger">{{ $errors->first('message') }}</span>
         @endif
-    </div>
-
-    <!-- Form submissions success message -->
-    <div class="d-none" id="submitSuccessMessage">
-      <div class="text-center mb-3">Form submission successful!</div>
-    </div>
-
-    <!-- Form submissions error message -->
-    <div class="d-none" id="submitErrorMessage">
-      <div class="text-center text-danger mb-3">Error sending message!</div>
     </div>
 
     <!-- Form submit button -->

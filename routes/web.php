@@ -23,14 +23,18 @@ Route::get('/', function (Request $request) {
 
 Auth::routes();
 
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 //messages routes
 Route::group(['prefix' => 'messages' ], function (){
-    Route::get('/inbox', [MessageController::class, 'inbox'])->name('messages.inbox');
-    Route::get('/create', [MessageController::class, 'create'])->name('messages.create');
+    Route::get('/', [MessageController::class, 'inbox'])->name('messages.inbox');
+    Route::get('/create/{id?}', [MessageController::class, 'create'])->name('messages.create');
+    
+    Route::get('/sent', [MessageController::class, 'sent'])->name('messages.sent');
+    Route::get('/trash', [MessageController::class, 'trash'])->name('messages.trash');
     Route::post('/', [MessageController::class, 'store'])->name('messages.store');
+    Route::get('/{message:id}', [MessageController::class, 'show'])->name('messages.show');
+    Route::delete('/{message}', [MessageController::class, 'destroy'])->name('messages.destroy');
 });
 
 

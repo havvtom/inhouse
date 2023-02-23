@@ -53,8 +53,21 @@ class User extends Authenticatable
 
     }
 
-    public function messages(){
-        return $this->hasMany(Message::class);
+    public function sentMessages(){
+        return $this->hasMany(Message::class, 'created_by_id');
+    }
+
+    public function getSentCountAttribute(){
+        return $this->sentMessages()->count();
+    }
+
+    public function receivedMessages(){
+        return $this->hasMany(Message::class, 'sending_to_id');
+    }
+
+    //Inbox count only shows messages received by the authenticated user that have not been seen
+    public function getInboxCountAttribute(){
+        return $this->receivedMessages()->where('seen', null)->count();
     }
 
    

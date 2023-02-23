@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
             $table->foreignId('created_by_id');
-            $table->bigInteger('message_parent_id')->nullable();
-            $table->bigInteger('sending_to_id')->nullable();
+            $table->bigInteger('sending_to_id');
             $table->string('subject');
             $table->text('message');
+            $table->datetime('seen')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
