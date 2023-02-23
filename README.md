@@ -1,4 +1,28 @@
-## Inhouse communication app<
+## Inhouse communication app
+
+The application was developed using laravel on xampp. To run the program on the local server run the following commands
+
+- composer install
+
+- create the .env and configure the database parameters
+
+- npm install
+- php artisan key:generate
+- Run the database migrations - php artisan migrate
+- Run the database seeders -php artisan db:seed
+- Run npm run dev
+- Run php artisan serve
+
+<p>5 users will be added to the database</p>
+<p>To check the users and their passwords you can go to the Database\Seeders\UserSeeder.php file </p>
+<p>Two users have admin role</p>
+<p>Admin users get all the messages sent within the application</p>
+<p>The inbox count is only applicable to the messages directly sent to the authenticated user</p>
+<p>Admin users have the permissions to delete and reply to any message sent on the application</p>
+<p>Non admin users only have access to messages sent to them</p>
+<p>To directly send a message to someone, you select the name of the person on the dropdown. The admin personnel however have access 
+to these messages and can also reply to these messages</p>
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
