@@ -48,10 +48,14 @@
     </div>
 
     <!-- Form submit button -->
-    <div class="d-grid">
-      <button class="btn btn-primary btn-lg" id="submitButton" type="submit">Submit</button>
+    <div class="row">
+      <div class="col-md-6">
+        <button class="btn btn-primary btn-lg" id="submitButton" type="submit">Submit</button>
+      </div>
+      <div class="col-md-6">
+        <a href="{{ route('messages.inbox') }}" class="btn btn-secondary btn-lg pull-right" id="submitButton" type="submit">Cancel</a>
+      </div>
     </div>
-
   </form>
 </div>
 @endsection
