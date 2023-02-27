@@ -24,6 +24,9 @@
                         <p>
                             {{$message->composer_name}}
                         </p>
+                        <br></br>
+                        <br></br>
+                        <a href="{{ route('messages.inbox') }}" type="button" class="btn btn-primary btn-lg btn-block">Back to inbox</a>
                     </div>
                 </div>
 
